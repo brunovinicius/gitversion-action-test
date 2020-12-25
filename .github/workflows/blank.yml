@@ -37,7 +37,7 @@ jobs:
         
       - name: GitVersion
         id: SemVer
-        run: dotnet gitversion /output json /config "${{ github.workspace }}/GitVersion.yml" /showvariable SemVer >> $GITHUB_ENV
+        run: dotnet gitversion /output json /config "${{ github.workspace }}/GitVersion.yml" /showvariable SemVer /verbosity Quiet >> $GITHUB_ENV
 
       - name: Version echo
         run: echo ${{ env.SemVer }}
