@@ -37,8 +37,8 @@ jobs:
         
       - name: GitVersion
         id: gitversion
-        run: dotnet gitversion /output json /config "${{ github.workspace }}/GitVersion.yml" /verbosity Diagnostic
+        run: dotnet gitversion /output json /config "${{ github.workspace }}/GitVersion.yml" /showvariable SemVer >> SemVer
 
       - name: Version echo
-        run: echo ${{ steps.gitversion.outputs.SemVer }}
+        run: echo ${{ env.SemVer }}
 
