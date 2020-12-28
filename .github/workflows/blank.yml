@@ -24,23 +24,25 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-
-      - name: echo workspace
-        run: echo "${{ github.workspace }}/petckjlzha.comcom" 
-                  
-      - name: peteca
-        run: git fetch --unshallow
  
       - name: Setup GitVersion
-        run: dotnet tool install -g GitVersion.Tool --version=5.6.0 
-
-        
-      - name: GitVersion
-        id: SemVer
         run: |
+          git fetch --unshallow 
+          dotnet tool install -g GitVersion.Tool --version=5.6.0 
           dotnet gitversion /output json /config "${{ github.workspace }}/GitVersion.yml"
           echo "SemVer=$(dotnet gitversion /output json /config "${{ github.workspace }}/GitVersion.yml" /showvariable SemVer /verbosity Quiet)" >> $GITHUB_ENV
 
       - name: Version echo
-        run: echo ${{ env.SemVer }}
+        run: | 
+          echo ${{ env.SemVer }}
+          mkdir dist
+          echo ${{ env.SemVer }} >> dist/version.txt
+
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v2.2.1
+        with:
+          # Artifact name
+          name: ${{ env.SemVer }} 
+          # A file, directory or wildcard pattern that describes what to upload
+          path: dist 
 
