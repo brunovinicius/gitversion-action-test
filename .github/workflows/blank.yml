@@ -38,6 +38,12 @@ jobs:
           mkdir dist
           echo ${{ env.SemVer }} >> dist/version.txt
 
+
+      - name: Set versions
+        run: | 
+          find . -name 'environment.prod.ts' | xargs sed -i '%SemVer%' '${{ env.SemVer }}'
+          cp * dist
+          
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.1
         with:
