@@ -41,8 +41,8 @@ jobs:
 
       - name: Set versions
         run: | 
-          find . -name 'environment.prod.ts' 
-          cp * dist
+          find . -name 'environment.prod.ts' | xargs sed -i '%SemVer%' '${{ env.SemVer }}'
+          cp -r . dist
           
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.1
